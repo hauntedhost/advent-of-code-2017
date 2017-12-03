@@ -8,35 +8,44 @@ defmodule Captcha2 do
   end
 
   def solve(nums) when is_list(nums) and rem(length(nums), 2) == 0 do
-    nums = Enum.with_index(nums)
-    nums_map = Enum.into(nums, %{}, fn({num, index}) ->
-      {index, num}
+    nums
+    |> Enum.reduce(%{
+      len: 0,
+      nums: [],
+      nums_map: %{},
+      step: nil,
+      sum: 0,
+    }, fn(num, result) -> %{result |
+        len: result.len + 1,
+        nums: [{num, result.len} | result.nums],
+        nums_map: Map.put(result.nums_map, result.len, num),
+        step: div(result.len + 1, 2),
+      }
     end)
-    len = length(nums)
-    solve(nums, 0, %{
-      nums_map: nums_map,
-      len: len,
-      step: div(len, 2),
-    })
+    |> Map.update(:nums, nil, fn(nums) -> Enum.reverse(nums) end)
+    |> solve
   end
 
-  def solve([], sum, _cache), do: sum
+  def solve(%{nums: [], sum: sum}), do: sum
 
-  def solve([{num, index} | nums], sum, %{
-    nums_map: nums_map,
+  def solve(%{
     len: len,
+    nums: [{num, index} | nums],
+    nums_map: nums_map,
     step: step,
+    sum: sum,
   }) do
     pos = rem(index + step, len)
     sum = case {num, Map.get(nums_map, pos)} do
       {n, n} -> sum + num
       _      -> sum
     end
-    solve(nums, sum, %{
+    solve(%{
+      len: len,
       nums: nums,
       nums_map: nums_map,
-      len: len,
       step: step,
+      sum: sum,
     })
   end
 end
