@@ -1,21 +1,8 @@
-# Aoc2017
+## Advent of Code 2017
 
-**TODO: Add description**
+[![Logo](screenshot.png)](http://adventofcode.com/2017/about)
 
-## Installation
+My Elixir solutions to [Advent of Code 2017](http://adventofcode.com/2017/about).
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `aoc_2017` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:aoc_2017, "~> 0.1.0"}
-  ]
-end
-```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/aoc_2017](https://hexdocs.pm/aoc_2017).
-
+---
+[Sean Omlor](http://seanomlor.com)
