@@ -38,12 +38,6 @@ defmodule ChecksumTest do
       851	132	939	1563	539	1351	1147	117	1484	100	123	490	152	798	1476	543
       1158	2832	697	113	121	397	1508	118	2181	2122	809	2917	134	2824	3154	2791
       """
-      |> String.split("\n", trim: true)
-      |> Enum.map(fn(row) ->
-        row
-        |> String.split
-        |> Enum.map(&String.to_integer/1)
-      end)
 
     assert Checksum.solve(input) == 53978
   end
