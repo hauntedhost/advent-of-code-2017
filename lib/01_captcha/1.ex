@@ -1,4 +1,4 @@
-defmodule Captcha do
+defmodule Captcha1 do
   # https://adventofcode.com/2017/day/1
 
   def solve(number) when is_number(number) do
