@@ -1,4 +1,4 @@
-defmodule Checksum do
+defmodule Checksum1 do
   # https://adventofcode.com/2017/day/2
 
   def solve(sheet) when is_list(sheet) do

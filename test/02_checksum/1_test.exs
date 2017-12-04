@@ -1,8 +1,8 @@
-defmodule ChecksumTest do
+defmodule Checksum1Test do
   use ExUnit.Case, async: true
 
   test "solve for [5195, 753, 2468] returns checksum 18" do
-    assert Checksum.solve([
+    assert Checksum1.solve([
       5195,
       753,
       2468,
@@ -10,7 +10,7 @@ defmodule ChecksumTest do
   end
 
   test "solve for [1122, 1111, 1234, 91212129] returns checksum 18" do
-    assert Checksum.solve([
+    assert Checksum1.solve([
       1122,
       1111,
       1234,
@@ -38,6 +38,6 @@ defmodule ChecksumTest do
     1158	2832	697	113	121	397	1508	118	2181	2122	809	2917	134	2824	3154	2791
     """
 
-    assert Checksum.solve(input) == 53978
+    assert Checksum1.solve(input) == 53978
   end
 end
