@@ -69,8 +69,12 @@ defmodule Spiral1 do
 
   defp add(spiral, current, direction) do
     {mx, my} = @move[direction]
-    {x, y} = Map.get(spiral, current - 1)
-    Map.put(spiral, current, {x + mx, y + my})
+    previous = current - 1
+    {x, y} = Map.get(spiral, previous)
+    %{
+      previous => {x, y},
+      current => {x + mx, y + my},
+    }
   end
 
   defp ring(ring, direction) when direction in [:right, :left], do: ring + 1

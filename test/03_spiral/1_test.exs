@@ -21,13 +21,16 @@ defmodule Spiral1Test do
     assert Spiral1.steps(361_527) == 326
   end
 
-  test "generate 50 returns expected coordinates" do
+  test "generate 2 returns expected coordinates" do
     assert %{
       1 => {0, 0},
       2 => {1, 0},
-      3 => {1, -1},
-      4 => {0, -1},
-      10 => {2, 1},
+    } = Spiral1.generate(2)
+  end
+
+  test "generate 50 returns expected coordinates" do
+    assert %{
+      49 => {3, 3},
       50 => {4, 3},
     } = Spiral1.generate(50)
   end
