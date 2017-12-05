@@ -14,6 +14,11 @@ defmodule Spiral1 do
     up: :left,
   }
 
+  def steps(n) do
+    {x, y} = generate(n)[n]
+    abs(x) + abs(y)
+  end
+
   def generate(size) when is_number(size) and size >= 1 do
     generate(%{
       current: 1,
