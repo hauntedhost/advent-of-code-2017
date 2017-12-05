@@ -1,38 +1,35 @@
 defmodule Spiral1 do
 
-  @moves %{
-    right: { 1,  0},
-    left:  {-1,  0},
-    up:    { 0, -1},
+  @move %{
     down:  { 0,  1},
+    left:  {-1,  0},
+    right: { 1,  0},
+    up:    { 0, -1},
   }
 
-  def generate(1) do
-    %{1 => {0, 0}}
-  end
+  @turn %{
+    down: :right,
+    left: :down,
+    right: :up,
+    up: :left,
+  }
 
-  def generate(2) do
-    1
-    |> generate
-    |> Map.put(2, {1, 0})
-  end
-
-  def generate(size) when is_number(size) and size > 2 do
+  def generate(size) when is_number(size) and size >= 1 do
     generate(%{
-      current: 2,
-      direction: :up,
+      current: 1,
+      direction: :right,
       last: size,
       ring: 1,
-      spiral: generate(2),
+      spiral: %{1 => {0, 0}},
       steps: 1,
     })
   end
 
   def generate(%{
-    current: current,
+    current: last,
     last: last,
     spiral: spiral,
-  }) when current >= last do
+  }) do
     spiral
   end
 
@@ -41,7 +38,7 @@ defmodule Spiral1 do
     ring: ring,
     steps: 0,
   }) do
-    direction = turn(direction)
+    direction = @turn[direction]
     generate(%{state |
       direction: direction,
       ring: ring(ring, direction),
@@ -66,16 +63,11 @@ defmodule Spiral1 do
   end
 
   defp add(spiral, current, direction) do
-    {mx, my} = @moves[direction]
+    {mx, my} = @move[direction]
     {x, y} = Map.get(spiral, current - 1)
     Map.put(spiral, current, {x + mx, y + my})
   end
 
   defp ring(ring, direction) when direction in [:right, :left], do: ring + 1
   defp ring(ring, _), do: ring
-
-  defp turn(:right), do: :up
-  defp turn(:up),    do: :left
-  defp turn(:left),  do: :down
-  defp turn(:down),  do: :right
 end
