@@ -1,16 +1,5 @@
 defmodule Passphrase2 do
 
-  def count_valid do
-    [File.cwd!, "files", "phrases.txt"]
-    |> Path.join
-    |> File.read!
-    |> String.split("\n", trim: true)
-    |> check
-    |> Enum.count(fn(result) ->
-      result == :ok
-    end)
-  end
-
   def check(phrase) when is_binary(phrase) do
     phrase
     |> String.split
@@ -36,6 +25,7 @@ defmodule Passphrase2 do
     Enum.map(phrases, &check/1)
   end
 
+  # TODO: rewrite as a lazy stream
   defp permutations(word) when is_binary(word) do
     word
     |> String.split("", trim: true)
