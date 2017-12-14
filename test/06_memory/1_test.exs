@@ -5,7 +5,7 @@ defmodule Memory1Test do
     assert Memory1.repair([0, 2, 7, 0]) == 5
   end
 
-  test "repair memory1.txt returns ???" do
+  test "repair memory1.txt returns 7864" do
     banks =
       [File.cwd!, "files", "memory1.txt"]
       |> Path.join
