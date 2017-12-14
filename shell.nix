@@ -18,6 +18,9 @@ in
       ]
     );
     shellHook = ''
+      # elixir shell history
+      export ERL_AFLAGS="-kernel shell_history enabled"
+
       # helpful aliases
       alias iexm='iex -S mix'
 
