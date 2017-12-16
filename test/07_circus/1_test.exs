@@ -21,19 +21,19 @@ defmodule Circus1Test do
     result = Circus1.parse(input)
 
     assert Enum.to_list(result) == [
-      %{"name" =>  "pbga", "weight" =>  66, "children" => []},
-      %{"name" =>  "xhth", "weight" =>  57, "children" => []},
-      %{"name" =>  "ebii", "weight" =>  61, "children" => []},
-      %{"name" =>  "havc", "weight" =>  66, "children" => []},
-      %{"name" =>  "ktlj", "weight" =>  57, "children" => []},
-      %{"name" =>  "fwft", "weight" =>  72, "children" => ["ktlj", "cntj", "xhth"]},
-      %{"name" =>  "qoyq", "weight" =>  66, "children" => []},
-      %{"name" =>  "padx", "weight" =>  45, "children" => ["pbga", "havc", "qoyq"]},
-      %{"name" =>  "tknk", "weight" =>  41, "children" => ["ugml", "padx", "fwft"]},
-      %{"name" =>  "jptl", "weight" =>  61, "children" => []},
-      %{"name" =>  "ugml", "weight" =>  68, "children" => ["gyxo", "ebii", "jptl"]},
-      %{"name" =>  "gyxo", "weight" =>  61, "children" => []},
-      %{"name" =>  "cntj", "weight" =>  57, "children" => []},
+      %{name: "pbga", weight:  66, children: []},
+      %{name: "xhth", weight:  57, children: []},
+      %{name: "ebii", weight:  61, children: []},
+      %{name: "havc", weight:  66, children: []},
+      %{name: "ktlj", weight:  57, children: []},
+      %{name: "fwft", weight:  72, children: ["ktlj", "cntj", "xhth"]},
+      %{name: "qoyq", weight:  66, children: []},
+      %{name: "padx", weight:  45, children: ["pbga", "havc", "qoyq"]},
+      %{name: "tknk", weight:  41, children: ["ugml", "padx", "fwft"]},
+      %{name: "jptl", weight:  61, children: []},
+      %{name: "ugml", weight:  68, children: ["gyxo", "ebii", "jptl"]},
+      %{name: "gyxo", weight:  61, children: []},
+      %{name: "cntj", weight:  57, children: []},
     ]
 
     IO.inspect Circus1.parse_nodes(input)
