@@ -36,6 +36,6 @@ defmodule Circus1Test do
       %{"name" =>  "cntj", "weight" =>  57, "children" => []},
     ]
 
-    IO.inspect input |> Circus1.parse_nodes |> Enum.to_list
+    IO.inspect Circus1.parse_nodes(input)
   end
 end

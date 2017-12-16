@@ -8,26 +8,40 @@ defmodule Circus1 do
   def parse_nodes(input) when is_binary(input) do
     input
     |> parse
-    |> Stream.map(&create_node/1)
-    |> Stream.into(%{}, fn(node) ->
-      {node.pid, node}
-    end)
+    |> Stream.flat_map(&create_nodes/1)
+    |> Enum.into(%{})
   end
 
-  def create_node(%{"name" => _} = attrs, parent_pid \\ nil) do
+  def create_nodes(%{
+    "name" => name,
+    "weight" => weight,
+    "children" => children,
+  } = attrs) do
+    {:ok, pid} = Agent.start_link(fn -> %Node{} end)
+    children = Enum.map(children, fn(child_name) ->
+      create_child(child_name, pid)
+    end)
+    Agent.update(pid, fn(node) ->
+      Map.merge(node, %{
+        pid: pid,
+        name: name,
+        weight: weight,
+        children: Enum.into(children, %{}),
+      })
+    end)
+    [{name, pid} | children]
+  end
+
+  def create_child(name, parent_pid) do
     {:ok, pid} = Agent.start_link(fn -> %Node{} end)
     Agent.update(pid, fn(node) ->
       Map.merge(node, %{
         pid: pid,
         parent_pid: parent_pid,
-        name: attrs["name"],
-        weight: attrs["weight"],
-        children: Enum.map(attrs["children"], fn(child_name) ->
-          create_node(%{"name" => child_name, "children" => []}, parent_pid)
-        end),
+        name: name,
       })
     end)
-    Agent.get(pid, &(&1))
+    {name, pid}
   end
 
   def parse(input) when is_binary(input) do
