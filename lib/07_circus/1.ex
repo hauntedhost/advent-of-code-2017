@@ -13,7 +13,7 @@ defmodule Circus1 do
     end)
   end
 
-  def update_nodes(nodes, %{:name => name, :children => []} = attrs) do
+  def update_nodes(nodes, %{name: name, children: []} = attrs) do
     case nodes[name] do
       nil         -> Map.put(nodes, name, create_node(attrs))
       %{pid: pid} -> Map.put(nodes, name, update_node(pid, attrs))
@@ -21,45 +21,58 @@ defmodule Circus1 do
   end
 
   def update_nodes(nodes, %{
-    :name => parent_name,
-    :children => [child_name | children],
+    name: parent_name,
+    children: [child_name | children],
   } = attrs) do
     nodes = case {nodes[parent_name], nodes[child_name]} do
       {nil, nil} ->
+        # create parent
         %{pid: parent_pid} = create_node(attrs)
+        # create child with parent_pid
         child_node = create_node(%{
-          :name => parent_name,
-          :parent_pid => parent_pid,
+          name: parent_name,
+          parent_pid: parent_pid,
         })
+        # add child to parent
         parent_node = add_child(parent_pid, child_node)
         Map.merge(nodes, %{
           parent_node.name => parent_node,
           child_node.name => child_node,
         })
-      {nil, %{pid: child_pid} = child_node} -> # TODO: update child_node with parent_pid
+      {nil, %{pid: child_pid} = child_node} ->
+        # create parent
         %{pid: parent_pid} = create_node(attrs)
-        # child_node = update_node(child_pid, )
+        # update child with parent_pid
+        child_node = update_node(child_pid, %{child_node | parent_pid: parent_pid})
+        # add child to parent
         parent_node = add_child(parent_pid, child_node)
         Map.merge(nodes, %{
           parent_node.name => parent_node,
+          child_node.name => child_node,
         })
       {%{pid: parent_pid}, nil} ->
+        # create child with parent_pid
         child_node = create_node(%{
-          :name => parent_name,
-          :parent_pid => parent_pid,
+          name: parent_name,
+          parent_pid: parent_pid,
         })
+        # add child to parent
         parent_node = add_child(parent_pid, child_node)
         Map.merge(nodes, %{
           parent_node.name => parent_node,
           child_node.name => child_node,
         })
-      {%{pid: parent_pid}, child_node} ->
+      {%{pid: parent_pid}, %{pid: child_pid} = child_node} ->
+        # update child with parent_pid
+        child_node = update_node(child_pid, %{child_node | parent_pid: parent_pid})
+        # add child to parent
         parent_node = add_child(parent_pid, child_node)
         Map.merge(nodes, %{
           parent_node.name => parent_node,
+          child_node.name => child_node,
         })
     end
-    update_nodes(nodes, %{attrs | :children => children})
+    update_nodes(nodes, %{attrs | children: children})
   end
 
   def add_child(parent_pid, %{pid: child_pid} = child_node) do
@@ -83,11 +96,11 @@ defmodule Circus1 do
       node
       |> Map.merge(%{
         pid: pid,
-        name: attrs[:name],
-        weight: attrs[:weight],
+        name: Map.get(attrs, :name),
+        weight: Map.get(attrs, :weight),
       })
       |> Map.update(:parent_pid, nil, fn
-        (nil) -> attrs[:parent_pid]
+        (nil) -> Map.get(attrs, :parent_pid)
         (pid) -> pid
       end)
     end)
