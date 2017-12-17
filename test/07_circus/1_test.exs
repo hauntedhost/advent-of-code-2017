@@ -17,6 +17,16 @@ defmodule Circus1Test do
     cntj (57)
   """
 
+  test "find_root_name for circus.txt returns azqje" do
+    circus =
+      [File.cwd!, "files", "circus.txt"]
+      |> Path.join
+      |> File.read!
+
+    assert Circus1.find_root_name(circus) == "azqje"
+  end
+
+
   test "find_root_name for @input returns 'tknk'" do
     assert Circus1.find_root_name(@input) == "tknk"
   end
