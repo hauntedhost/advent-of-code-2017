@@ -1,6 +1,10 @@
 defmodule Circus1Test do
   use ExUnit.Case, async: true
 
+  test "parse_nodes" do
+    IO.inspect Circus1.parse_nodes(input)
+  end
+
   test "parse parses" do
     input = """
     pbga (66)
@@ -35,7 +39,5 @@ defmodule Circus1Test do
       %{name: "gyxo", weight:  61, children: []},
       %{name: "cntj", weight:  57, children: []},
     ]
-
-    IO.inspect Circus1.parse_nodes(input)
   end
 end
