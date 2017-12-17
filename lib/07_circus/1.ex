@@ -90,7 +90,7 @@ defmodule Circus1 do
 
     # add child to parent
     Agent.update(parent_pid, fn(parent) ->
-        Map.update(parent, :children, %{child.name => child}, fn(children) ->
+        Map.update(parent, :children, %{child.name => child.pid}, fn(children) ->
           Map.merge(children, %{
             child.name => child.pid,
           })
