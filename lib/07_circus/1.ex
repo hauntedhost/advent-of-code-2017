@@ -5,6 +5,24 @@ defmodule Circus1 do
     defstruct [:pid, :name, :weight, :parent_pid, children: %{}]
   end
 
+  def find_root_name(input) when is_binary(input) do
+    input
+    |> find_root
+    |> case do
+      %{name: name} -> name
+      _             -> nil
+    end
+  end
+
+  def find_root(input) when is_binary(input) do
+    input
+    |> parse_nodes
+    |> Enum.find_value(fn
+      ({_, %{parent_pid: nil} = node}) -> node
+      (_)                              -> false
+    end)
+  end
+
   def parse_nodes(input) when is_binary(input) do
     input
     |> parse

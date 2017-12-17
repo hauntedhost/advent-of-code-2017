@@ -17,7 +17,25 @@ defmodule Circus1Test do
     cntj (57)
   """
 
-  test "parse_nodes" do
+  test "find_root_name for @input returns 'tknk'" do
+    assert Circus1.find_root_name(@input) == "tknk"
+  end
+
+  test "find_root for @input returns root Node" do
+    assert %Circus1.Node{
+      children: %{
+        "fwft" => _,
+        "padx" => _,
+        "ugml" => _,
+      },
+      name: "tknk",
+      parent_pid: nil,
+      pid: _,
+      weight: 41,
+    } = Circus1.find_root(@input)
+  end
+
+  test "parse_nodes for @input returns expected map of Nodes" do
     assert %{
       "cntj" => %Circus1.Node{
         children: %{},
@@ -128,7 +146,7 @@ defmodule Circus1Test do
       }} = Circus1.parse_nodes(@input)
   end
 
-  test "parse parses" do
+  test "parse @input returns expected list of maps" do
     result = Circus1.parse(@input)
 
     assert Enum.to_list(result) == [
