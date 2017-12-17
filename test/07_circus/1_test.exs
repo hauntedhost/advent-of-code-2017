@@ -1,12 +1,7 @@
 defmodule Circus1Test do
   use ExUnit.Case, async: true
 
-  test "parse_nodes" do
-    IO.inspect Circus1.parse_nodes(input)
-  end
-
-  test "parse parses" do
-    input = """
+  @input """
     pbga (66)
     xhth (57)
     ebii (61)
@@ -20,9 +15,121 @@ defmodule Circus1Test do
     ugml (68) -> gyxo, ebii, jptl
     gyxo (61)
     cntj (57)
-    """
+  """
 
-    result = Circus1.parse(input)
+  test "parse_nodes" do
+    assert %{
+      "cntj" => %Circus1.Node{
+        children: %{},
+        name: "cntj",
+        parent_pid: _,
+        pid: _,
+        weight: 57,
+      },
+      "ebii" => %Circus1.Node{
+        children: %{},
+        name: "ebii",
+        parent_pid: _,
+        pid: _,
+        weight: 61,
+      },
+      "fwft" => %Circus1.Node{
+        children: %{
+          "cntj" => _,
+          "ktlj" => _,
+          "xhth" => _,
+        },
+        name: "fwft",
+        parent_pid: _,
+        pid: _,
+        weight: 72,
+      },
+      "gyxo" => %Circus1.Node{
+        children: %{},
+        name: "gyxo",
+        parent_pid: _,
+        pid: _,
+        weight: 61,
+      },
+      "havc" => %Circus1.Node{
+        children: %{},
+        name: "havc",
+        parent_pid: _,
+        pid: _,
+        weight: 66,
+      },
+      "jptl" => %Circus1.Node{
+        children: %{},
+        name: "jptl",
+        parent_pid: _,
+        pid: _,
+        weight: 61
+      },
+      "ktlj" => %Circus1.Node{
+        children: %{},
+        name: "ktlj",
+        parent_pid: _,
+        pid: _,
+        weight: 57,
+      },
+      "padx" => %Circus1.Node{
+        children: %{
+          "havc" => _,
+          "pbga" => _,
+          "qoyq" => _,
+        },
+        name: "padx",
+        parent_pid: _,
+        pid: _,
+        weight: 45,
+      },
+      "pbga" => %Circus1.Node{
+        children: %{},
+        name: "pbga",
+        parent_pid: _,
+        pid: _,
+        weight: 66,
+      },
+      "qoyq" => %Circus1.Node{
+        children: %{},
+        name: "qoyq",
+        parent_pid: _,
+        pid: _,
+        weight: 66,
+      },
+      "tknk" => %Circus1.Node{
+        children: %{
+          "fwft" => _,
+          "padx" => _,
+          "ugml" => _,
+        },
+        name: "tknk",
+        parent_pid: nil,
+        pid: _,
+        weight: 41,
+      },
+      "ugml" => %Circus1.Node{
+        children: %{
+          "ebii" => _,
+          "gyxo" => _,
+          "jptl" => _,
+        },
+        name: "ugml",
+        parent_pid: _,
+        pid: _,
+        weight: 68,
+      },
+      "xhth" => %Circus1.Node{
+        children: %{},
+        name: "xhth",
+        parent_pid: _,
+        pid: _,
+        weight: 57,
+      }} = Circus1.parse_nodes(@input)
+  end
+
+  test "parse parses" do
+    result = Circus1.parse(@input)
 
     assert Enum.to_list(result) == [
       %{name: "pbga", weight:  66, children: []},
